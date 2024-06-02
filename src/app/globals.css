@@ -5,15 +5,20 @@
 :root {
   --bg-light: #212631;
   --bg-mid: #2a313f;
+  --bg-dark: #1d222b;
   --cui-body-color: white !important;
 }
 
-* {
-  /* border-color: rgb(191, 191, 191) !important; */
+.sidebar,
+.modal-content {
+  background-color: var(--bg-light) !important;
+}
+
+.modal-footer {
+  border: none !important;
 }
 
 .sidebar {
-  background-color: var(--bg-light) !important;
   height: 100% !important;
 }
 
@@ -34,13 +39,24 @@
 html,
 body {
   color: white !important;
-  background-color: #1d222b !important;
+  background-color: var(--bg-dark) !important;
   height: 100% !important;
   width: 100% !important;
+  overflow-y: hidden;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+::-webkit-scrollbar {
+  background-color: var(--bg-dark);
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg-mid);
+  border-radius: 8px;
 }

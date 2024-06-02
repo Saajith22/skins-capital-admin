@@ -1,20 +1,17 @@
-import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/Sidebar";
+"use client";
+
+import { MainProviderContext } from "@/components/MainProvider";
 import Widgets from "@/components/Widgets";
+import { useContext } from "react";
 
 export default function Home() {
+  const { usersData } = useContext(MainProviderContext);
+  console.log(usersData);
+
   return (
     <>
-      <div className="flex h-full">
-        <Sidebar />
-        <div className="flex flex-col w-full">
-          <Navbar />
-          <div className="flex flex-col gap-5 mx-4 my-4">
-            <h1 className="text-center">Welcome to Dashboard</h1>
-            <Widgets />
-          </div>
-        </div>
-      </div>
+      <h1 className="text-center font-bold mb-5">Welcome to Dashboard</h1>
+      <Widgets />
     </>
   );
 }
