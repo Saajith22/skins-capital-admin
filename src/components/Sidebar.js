@@ -18,7 +18,7 @@ export default function Sidebar() {
         </CSidebarBrand>
       </CSidebarHeader>
       <CSidebarNav>
-        <CNavItem href="/" className="gap-2">
+        <CNavItem href="/dashboard" className="gap-2">
           <RxDashboard /> Dashboard
         </CNavItem>
       </CSidebarNav>
