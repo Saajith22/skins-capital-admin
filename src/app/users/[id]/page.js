@@ -16,13 +16,12 @@ export default function User({ params }) {
 
   const { usersData } = useContext(MainProviderContext);
   const user = usersData.find((u) => u.steam_id === id);
-  if (!user) return notFound();
-
   console.log(user);
 
   const balanceRef = useRef();
   const [balance, setBalance] = useState(user.balance.toFixed(2));
 
+  if (!user) return notFound();
   return (
     <div className="flex flex-col gap-4 px-10">
       <div className="flex gap-3 items-center w-full bg-mid rounded py-3 px-10 shadow-lg">
