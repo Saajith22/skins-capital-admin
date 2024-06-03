@@ -62,7 +62,7 @@ export default function Users() {
                   <CButton href={`/users/${user.steam_id}`} className="bg-dark">
                     Edit
                   </CButton>
-                  <CButton color="danger">Delete</CButton>
+                  <CButton color="danger">Ban</CButton>
                 </div>
               </div>
             )

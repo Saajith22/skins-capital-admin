@@ -45,6 +45,14 @@ body {
   overflow-y: hidden;
 }
 
+code {
+  background-color: #1d1d1d;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.692) !important;
+  padding-block: 3px;
+  padding-inline: 7px;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

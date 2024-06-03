@@ -38,21 +38,25 @@ export default function MainProvider({ children }) {
   const getUser = () => logged;
 
   useEffect(() => {
-    setLoad(20);
+    (async () => {
+      const res = await fetch("/");
+      console.log(res.redirected, "redirect");
+      if (!res.redirected) return (window.location.href = "/");
 
-    const loggedIn = document.cookie
-      .split(";")
-      .find((c) => c.startsWith("user"));
+      setLoad(20);
 
-    if (loggedIn) {
-      setLoad(70);
-      setLogged(JSON.parse(decodeURIComponent(loggedIn.split("=")[1])));
+      const loggedIn = document.cookie
+        .split(";")
+        .find((c) => c.startsWith("user"));
 
-      (async () => {
+      if (loggedIn) {
+        setLoad(70);
+        setLogged(JSON.parse(decodeURIComponent(loggedIn.split("=")[1])));
+
         await refreshData();
         setLoad(100);
-      })();
-    } else setLoad(null);
+      } else setLoad(null);
+    })();
   }, []);
 
   return (
