@@ -43,7 +43,7 @@ export default function User({ params }) {
           </h6>
           <h6 className="flex gap-2 items-center">
             Balance:{" "}
-            <code className={jb.className + " w-max"}>
+            <code className={jb.className}>
               ${" "}
               <input
                 ref={balanceRef}
