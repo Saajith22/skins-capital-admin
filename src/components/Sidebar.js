@@ -7,7 +7,7 @@ import {
   CSidebarHeader,
   CSidebarNav,
 } from "@coreui/react";
-import { RxDashboard } from "react-icons/rx";
+import { RxBackpack, RxContainer, RxDashboard } from "react-icons/rx";
 
 export default function Sidebar() {
   return (
@@ -20,6 +20,9 @@ export default function Sidebar() {
       <CSidebarNav>
         <CNavItem href="/dashboard" className="gap-2">
           <RxDashboard /> Dashboard
+        </CNavItem>
+        <CNavItem href="/inventory" className="gap-2">
+          <RxBackpack /> Inventory
         </CNavItem>
       </CSidebarNav>
     </CSidebar>
