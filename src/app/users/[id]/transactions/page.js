@@ -12,7 +12,10 @@ export default function Transactions({ params }) {
 
   return (
     <>
-      <h3 className="text-center">{user?.name}'s Transactions</h3>
+      <h3 className="text-center">
+        {user?.name}
+        {"'"}s Transactions
+      </h3>
       <div className="flex flex-col gap-2 bg-mid py-3 px-2 mt-5 rounded">
         <div className="grid grid-cols-3 gap-5 text-lg mb-2">
           <span className="bg-dark py-2 px-3 rounded shadow">Amount</span>
