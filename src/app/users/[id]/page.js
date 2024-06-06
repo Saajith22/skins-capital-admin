@@ -5,7 +5,16 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 import { JetBrains_Mono } from "next/font/google";
 import { FaPencilAlt } from "react-icons/fa";
+import {
+  MdCalendarMonth,
+  MdFreeBreakfast,
+  MdKey,
+  MdOutlineDriveFileRenameOutline,
+} from "react-icons/md";
+import { IoMdCard } from "react-icons/io";
+
 import { CButton } from "@coreui/react";
+import { GoStack } from "react-icons/go";
 const jb = JetBrains_Mono({
   weight: "400",
   subsets: ["cyrillic"],
@@ -37,17 +46,31 @@ export default function User({ params }) {
         );
 
         const items = await invRes.json();
-        inventory.push(JSON.parse(items));
+        const parsed = JSON.parse(items);
+        if (!parsed) inventory.push(null);
+        else {
+          const grouped = [];
+          for (const parse of parsed) {
+            if (grouped.find((e) => e.name === parse.name)) continue;
+
+            const fil = parsed.filter((e) => e?.name === parse?.name).length;
+            grouped.push({
+              ...parse,
+              count: fil,
+            });
+          }
+
+          inventory.push(grouped);
+        }
       }
 
-      console.log("INVENTORY", inventory);
       setInv(inventory);
     })();
   }, []);
 
   return user ? (
     <div className="flex flex-col gap-4 px-10">
-      <div className="flex gap-3 items-center w-full bg-mid rounded py-3 px-10 shadow-lg">
+      <div className="flex gap-4 items-center w-full bg-mid rounded py-3 px-10 shadow-lg">
         <img
           width={125}
           height={125}
@@ -55,16 +78,20 @@ export default function User({ params }) {
           src={`https://avatars.akamai.steamstatic.com/${user.avatar}_full.jpg`}
         />
         <div className="flex flex-col gap-1">
-          <h6>
+          <h6 className="flex gap-2 items-center">
+            <MdOutlineDriveFileRenameOutline className="text-xl" />
             Name: <code className={jb.className}>{user.name}</code>
           </h6>
-          <h6>
+          <h6 className="flex gap-2 items-center">
+            <MdKey className="text-xl" />
             Steam ID: <code className={jb.className}>{user.steam_id}</code>
           </h6>
-          <h6>
+          <h6 className="flex gap-2 items-center">
+            <MdCalendarMonth className="text-xl" />
             Join Date: <code className={jb.className}>{user.date}</code>
           </h6>
           <h6 className="flex gap-2 items-center">
+            <MdFreeBreakfast className="text-xl" />
             Affiliate Code:{" "}
             <code className={jb.className}>
               <input
@@ -85,6 +112,7 @@ export default function User({ params }) {
             />
           </h6>
           <h6 className="flex gap-2 items-center">
+            <IoMdCard className="text-xl" />
             Balance:{" "}
             <code className={jb.className}>
               ${" "}
@@ -108,33 +136,51 @@ export default function User({ params }) {
             />
           </h6>
         </div>
+        <div className="ms-auto mb-auto flex">
+          <CButton href={`/users/${id}/transactions`} color="dark">
+            Transactions
+          </CButton>
+        </div>
       </div>
       <div className="flex flex-col gap-5 w-full bg-mid rounded py-3 px-10 shadow-lg">
         {inv.length > 0 ? (
           ["csgo", "rust"].map((game, i) => (
-            <div className="flex flex-col gap-2">
+            <div key={i} className="flex flex-col gap-2">
               <code className={`${jb.className} text-lg w-max`}>
                 {game.toUpperCase()} Items
               </code>
-              <div className="grid grid-cols-4 gap-2">
-                {inv[i].map((item) => {
-                  return (
-                    <div
-                      key={item.assetid}
-                      className="flex flex-col items-center bg-dark p-3 rounded shadow"
-                    >
-                      <img
-                        width={100}
-                        height={100}
-                        src={`https://community.cloudflare.steamstatic.com/economy/image/${item.image}`}
-                      />
-                      {item?.name}
-                      <CButton className="mt-2" size="sm" color="danger">
-                        Remove
-                      </CButton>
-                    </div>
-                  );
-                })}
+              <div className="grid grid-cols-5 gap-2">
+                {inv[i] ? (
+                  inv[i].map((item) => {
+                    return (
+                      <div
+                        key={item.assetid}
+                        className="relative flex flex-col items-center bg-dark p-3 gap-1 rounded shadow"
+                      >
+                        <h6
+                          className={`${jb.className} flex gap-1 items-center text-xs absolute top-2 right-3`}
+                        >
+                          <GoStack className="text-[16px]" />
+                          {item?.count}
+                        </h6>
+                        <img
+                          width={90}
+                          height={90}
+                          src={`https://community.cloudflare.steamstatic.com/economy/image/${item.image}`}
+                        />
+                        {item?.name?.slice(0, 20)}
+                        {item?.name?.length > 20 && "..."}
+                        <CButton className="mt-2" size="sm" color="danger">
+                          Remove
+                        </CButton>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <>
+                    <h5>No items found.</h5>
+                  </>
+                )}
               </div>
             </div>
           ))

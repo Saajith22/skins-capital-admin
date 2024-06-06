@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { JetBrains_Mono } from "next/font/google";
 import { CButton } from "@coreui/react";
+import { GoStack } from "react-icons/go";
 const jb = JetBrains_Mono({
   weight: "400",
   subsets: ["cyrillic"],
@@ -26,13 +27,29 @@ export default function Inventory() {
           );
 
           const items = await invRes.json();
-          console.log(items);
-          if (items) inventory[game === 730 ? 0 : 1].push(JSON.parse(items));
+          const parsed = JSON.parse(items);
+          const invv = inventory[game === 730 ? 0 : 1];
+
+          if (!parsed) invv.push(null);
+          else {
+            const grouped = [];
+            for (const parse of parsed) {
+              if (grouped.find((e) => e.name === parse.name)) continue;
+
+              const fil = parsed.filter((e) => e?.name === parse?.name).length;
+              grouped.push({
+                ...parse,
+                count: fil,
+              });
+            }
+
+            invv.push(grouped.flat());
+          }
         }
       }
 
-      inventory[0] = inventory[0].flat();
-      inventory[1] = inventory[1].flat();
+      inventory[0] = inventory[0].flat().filter((e) => e !== null);
+      inventory[1] = inventory[1].flat().filter((e) => e !== null);
 
       console.log("INVENTORY", inventory);
       setInv(inventory);
@@ -49,25 +66,38 @@ export default function Inventory() {
               <code className={`${jb.className} text-lg w-max`}>
                 {game.toUpperCase()} Items
               </code>
-              <div className="grid grid-cols-4 gap-2">
-                {inv[i].map((item) => {
-                  return (
-                    <div
-                      key={item.assetid}
-                      className="flex flex-col items-center bg-dark p-3 rounded shadow"
-                    >
-                      <img
-                        width={100}
-                        height={100}
-                        src={`https://community.cloudflare.steamstatic.com/economy/image/${item.image}`}
-                      />
-                      {item?.name}
-                      <CButton className="mt-2" size="sm" color="danger">
-                        Remove
-                      </CButton>
-                    </div>
-                  );
-                })}
+              <div className="grid grid-cols-5 gap-2">
+                {inv[i] ? (
+                  inv[i].map((item) => {
+                    return (
+                      <div
+                        key={item?.assetid}
+                        className="relative flex flex-col items-center bg-dark p-3 gap-1 rounded shadow"
+                      >
+                        <h6
+                          className={`${jb.className} flex gap-1 items-center text-xs absolute top-2 right-3`}
+                        >
+                          <GoStack className="text-[16px]" />
+                          {item?.count}
+                        </h6>
+                        <img
+                          width={90}
+                          height={90}
+                          src={`https://community.cloudflare.steamstatic.com/economy/image/${item?.image}`}
+                        />
+                        {item?.name?.slice(0, 20)}
+                        {item?.name?.length > 20 && "..."}
+                        <CButton className="mt-2" size="sm" color="danger">
+                          Remove
+                        </CButton>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <>
+                    <h5>No items found.</h5>
+                  </>
+                )}
               </div>
             </div>
           ))
