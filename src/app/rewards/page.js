@@ -91,7 +91,7 @@ export default function Rewards() {
                 <h2 className="text-2xl font-bold">{v} Rewards</h2>
                 <div className="flex gap-2 mb-2">
                   {rewards[i].map((r, j) => (
-                    <div className={`${j !== 1 && "mt-3"} text-center`}>
+                    <div key={j} className={`${j !== 1 && "mt-3"} text-center`}>
                       <span className="text-lg">{positions[j]}</span>
                       <div
                         key={j}
