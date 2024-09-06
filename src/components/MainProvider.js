@@ -27,7 +27,13 @@ export default function MainProvider({ children }) {
   };
 
   const showAlert = (data) => {
-    setAlert(data);
+    console.log("I RAN BUD?", data);
+
+    setAlert({
+      ...alert,
+      ...data,
+    });
+
     setVisible(true);
 
     setTimeout(() => {
@@ -40,7 +46,6 @@ export default function MainProvider({ children }) {
   useEffect(() => {
     (async () => {
       const res = await fetch("/");
-      console.log(res.redirected, "redirect");
       if (!res.redirected) return (window.location.href = "/");
 
       setLoad(20);
@@ -89,6 +94,7 @@ export default function MainProvider({ children }) {
               <CFormInput
                 type="email"
                 placeholder="Enter your email"
+                className="text-black"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -97,6 +103,7 @@ export default function MainProvider({ children }) {
               <CFormInput
                 type="password"
                 placeholder="Enter your password"
+                className="text-black"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>

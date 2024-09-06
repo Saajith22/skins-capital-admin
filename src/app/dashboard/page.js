@@ -6,7 +6,6 @@ import { useContext } from "react";
 
 export default function Home() {
   const { usersData } = useContext(MainProviderContext);
-  console.log(usersData);
 
   return (
     <>

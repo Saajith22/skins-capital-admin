@@ -41,6 +41,9 @@ export default function Users() {
           />
         </div>
       </div>
+
+      <span className="text-end">{filtered.length} users found</span>
+
       <div className="flex flex-col gap-2 mt-3">
         {filtered.map(
           (user) =>

@@ -32,3 +32,12 @@ model users {
   code           String? @db.VarChar(255)
   transactions   Json?   @db.Json
 }
+
+model personal {
+  id        Int     @id(map: "private_pkey")
+  week_end  String? @db.VarChar(255)
+  rewards   Json?   @db.Json
+  giveaways Json?   @db.Json
+  winners   Json?   @db.Json
+  month_end String? @db.VarChar(255)
+}

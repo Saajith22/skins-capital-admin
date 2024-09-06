@@ -7,7 +7,8 @@ import {
   CSidebarHeader,
   CSidebarNav,
 } from "@coreui/react";
-import { RxBackpack, RxContainer, RxDashboard } from "react-icons/rx";
+import { FaBoxes, FaGift, FaSplotch } from "react-icons/fa";
+import { RiLayoutGridFill } from "react-icons/ri";
 
 export default function Sidebar() {
   return (
@@ -19,10 +20,16 @@ export default function Sidebar() {
       </CSidebarHeader>
       <CSidebarNav>
         <CNavItem href="/dashboard" className="gap-2">
-          <RxDashboard /> Dashboard
+          <RiLayoutGridFill/> Dashboard
         </CNavItem>
         <CNavItem href="/inventory" className="gap-2">
-          <RxBackpack /> Inventory
+          <FaBoxes /> Inventory
+        </CNavItem>
+        <CNavItem href="/giveaways" className="gap-2">
+          <FaSplotch /> Giveaways
+        </CNavItem>
+        <CNavItem href="/rewards" className="gap-2">
+          <FaGift /> Rewards
         </CNavItem>
       </CSidebarNav>
     </CSidebar>
